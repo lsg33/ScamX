@@ -318,7 +318,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
             color: 5814783,
             fields: [
                 {
-                    name: "Date of Call",
+                    name: "Date of Calls",
                     value: formData.get("callDate") || "N/A",
                     inline: true
                 },
@@ -333,7 +333,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
                 },
                 {
                     name: "Call Logs",
-                    value: callLogs ? `[Download Call Logs](https://your-server.com/path/to/${callLogs})` : "No files uploaded"
+                    value: callLogs ? `[Download Call Logs](https://scamx.com/api/logs/${callLogs})` : "No files uploaded"
                 },
                 {
                     name: "Name",
@@ -348,7 +348,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
                     value: formData.get("persistentCheck") ? "Yes" : "No"
                 },
                 {
-                    name: "Alleged Product/Service or Company",
+                    name: "Alleged Product/Service or Company name",
                     value: formData.get("productService") || "N/A"
                 }
             ],
@@ -372,7 +372,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
         }
         return response.text(); // Use response.text() to avoid errors when no JSON is returned
     }).then(data => {
-        alert("Report submitted successfully.");
+        alert("Report submitted successfully! We will begin investigating this case, and get back to you.");
         modal.style.display = "none";
     }).catch(error => {
         console.error("Error:", error);
