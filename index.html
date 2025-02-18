@@ -237,6 +237,18 @@
                         <label for="callLogs">Upload Call Logs (MP3)</label>
                         <input type="file" id="callLogs" name="callLogs" accept=".mp3" required>
                     </div>
+
+                    <div class="input-group">
+                        <label for="persistentCheck">
+                            I have requested them to stop but they are persistent. <input type="checkbox" id="persistentCheck" name="persistentCheck">
+                        </label>
+                    </div>
+                    
+                    <!-- New Input: Alleged Product/Service or Company -->
+                    <div class="input-group">
+                        <label for="productService">Alleged Product/Service or Company name:</label>
+                        <input type="text" id="productService" name="productService" placeholder="e.g., ScamTech Inc.">
+                    </div>
                     <button type="submit">Submit Report</button>
                 </form>
             </div>
@@ -303,7 +315,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
     const embed = {
         embeds: [{
             title: "New Scam Report",
-            color: 5814783, // Hex color code for the embed's border (use any color code)
+            color: 5814783,
             fields: [
                 {
                     name: "Date of Call",
@@ -330,6 +342,14 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
                 {
                     name: "Email",
                     value: formData.get("EmailContact") || "No email provided"
+                },
+                {
+                    name: "Persistent Request",
+                    value: formData.get("persistentCheck") ? "Yes" : "No"
+                },
+                {
+                    name: "Alleged Product/Service or Company",
+                    value: formData.get("productService") || "N/A"
                 }
             ],
             footer: {
@@ -338,6 +358,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
             timestamp: new Date()
         }]
     };
+
 
     fetch(webhookUrl, {
         method: "POST",
