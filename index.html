@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamX - Protect Yourself from Scam Calls</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #1e2a47;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            max-width: 100%; /* Make sure inputs take up the full width of their container */
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        button,
+        .button,
+        .add-input-btn,
+        .remove-btn {
+            width: 100%; /* Make buttons full-width inside containers */
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-sizing: border-box; /* Make buttons consider padding in their width */
+        }
+
+        button:hover,
+        .button:hover,
+        .add-input-btn:hover,
+        .remove-btn:hover {
+            background-color: #45a049;
+        }
+
+        .remove-btn {
+            background-color: #f44336; /* Red for the remove button */
+            width: auto; /* Auto-width to make the remove button smaller */
+        }
+
+        /* Modal specific styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+            overflow: auto; /* Enable scrolling if needed */
+        }
+
+        /* Adjust the modal content's width */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%; /* Increase width to prevent it from being too small */
+            max-width: 800px; /* Larger maximum width */
+            transition: 0.3s;
+            position: relative; /* Allow close button positioning inside the modal */
+        }
+
+        /* Close button inside the modal */
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Flex container for input fields and buttons */
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            max-width: 100%;
+        }
+
+        .input-container input {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            max-width: 80%; /* Set a maximum width for the input field */
+        }
+
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            width: 80px; /* Control the width of the remove button */
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to ScamX</h1>
+        <p>Your trusted partner in fighting back against scam calls</p>
+    </header>
+    <div class="container">
+        <!-- Introduction Section -->
+        <div class="section" id="intro">
+            <h2>What is ScamX?</h2>
+            <p>ScamX is a service dedicated to helping you stop unwanted scam calls, recover damages, and put an end to harassment from telemarketers. With our advanced tracking and legal tools, we make sure that you don't have to deal with scam calls alone.</p>
+        </div>
+        <!-- Service Section -->
+        <div class="section" id="services">
+            <h2>Our Services</h2>
+            <p>We take proactive steps to handle scam calls on your behalf. From filing complaints to sending demand letters and pursuing legal action, ScamX ensures that scammers face the consequences of their actions. We give you peace of mind while protecting your privacy and security.</p>
+            <button class="button" id="reportButton">Report Scam Calls</button>
+        </div>
+        <!-- Demand Section -->
+        <div class="section" id="demand">
+            <h2>We Demand on Your Behalf</h2>
+            <p>We understand how disruptive scam calls can be. That's why ScamX doesn't just report them; we take action. When we say, "We demand," we mean we will send demand letters, seek compensation, and pursue legal recourse on your behalf. Your rights matter, and we fight for them!</p>
+        </div>
+        <!-- Modal Section -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Report Scam Calls</h2>
+                <form id="scamReportForm">
+                    <!-- Date of Call -->
+                    <div class="input-group">
+                        <label for="callDate">Approx. Date of Call(s)</label>
+                        <input type="date" id="callDate" name="callDate" required>
+                    </div>
+                    <!-- Number of Calls -->
+                    <div class="input-group">
+                        <label for="callAmount">Number of Calls</label>
+                        <input type="number" id="callAmount" name="callAmount" min="1" required>
+                    </div>
+                    <!-- Phone Numbers (Multiple) -->
+                    <div class="input-group">
+                        <label for="phoneNumbers">Phone Numbers (Multiple)</label>
+                        <div id="phoneNumbersList" class="input-list">
+                            <input type="text" name="phoneNumbers[]" placeholder="e.g., 123-456-7890" required>
+                        </div>
+                        <button type="button" class="add-input-btn" id="addPhoneNumber">Add Another Phone Number</button>
+                    </div>
+                    <!-- Upload Call Logs -->
+                    <div class="input-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" id="nameIP" name="nameIP" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="Name">Email:</label>
+                        <input type="text" id="EmailContact" name="EmailContact" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="callLogs">Upload Call Logs (MP3)</label>
+                        <input type="file" id="callLogs" name="callLogs" accept=".mp3" required>
+                    </div>
+                    <button type="submit">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            var modal = document.getElementById("myModal"); // Get the button that opens the modal 
+        var btn = document.getElementById("reportButton"); // Get the <span> element that closes the modal 
+        var span = document.getElementById("closeModal"); // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        } // When the user clicks on <span> (x), close the modal 
+        span.onclick = function() {
+            modal.style.display = "none";
+        } // When the user clicks anywhere outside of the modal, close it 
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        } // Add another phone number field 
+        document.getElementById("addPhoneNumber").onclick = function() {
+    var phoneNumbersList = document.getElementById("phoneNumbersList");
+
+    // Create a container for the input and the remove button
+    var inputContainer = document.createElement("div");
+    inputContainer.classList.add("input-container");
+
+    // Create the new input for the phone number
+    var newInput = document.createElement("input");
+    newInput.type = "text";
+    newInput.name = "phoneNumbers[]";
+    newInput.placeholder = "e.g., 987-654-3210";
+    inputContainer.appendChild(newInput);
+
+    // Create the remove button
+    var removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.innerHTML = "Remove";
+    removeButton.classList.add("remove-btn");
+    
+    // Add the remove functionality to the button
+    removeButton.onclick = function() {
+        inputContainer.remove();
+    };
+
+    // Append the remove button to the container
+    inputContainer.appendChild(removeButton);
+
+    // Append the whole container to the phone numbers list
+    phoneNumbersList.appendChild(inputContainer);
+};
+
+
+document.getElementById("scamReportForm").onsubmit = function(event) {
+    event.preventDefault();
+    
+    const webhookUrl = "https://discord.com/api/webhooks/1341201875864784896/fijll2VFyZ_KcR30jvbwuKspCJMcoVGcpDUnz-tH2YtF9OChBOYDwb6ujVU7g_kWcIJd"; // Replace with your actual Discord webhook URL
+    
+    const formData = new FormData(event.target);
+    const phoneNumbers = formData.getAll("phoneNumbers[]").join(", ");
+    const callLogs = formData.getAll("callLogs").map(file => file.name).join(", ");
+    
+    const embed = {
+        embeds: [{
+            title: "New Scam Report",
+            color: 5814783, // Hex color code for the embed's border (use any color code)
+            fields: [
+                {
+                    name: "Date of Call",
+                    value: formData.get("callDate") || "N/A",
+                    inline: true
+                },
+                {
+                    name: "Number of Calls",
+                    value: formData.get("callAmount") || "N/A",
+                    inline: true
+                },
+                {
+                    name: "Phone Numbers",
+                    value: phoneNumbers || "N/A"
+                },
+                {
+                    name: "Call Logs",
+                    value: callLogs || "No files uploaded"
+                },
+                {
+                    name: "Name",
+                    value: formData.get("nameIP") || "Anonymous"
+                },
+                {
+                    name: "Email",
+                    value: formData.get("EmailContact") || "No email provided"
+                }
+            ],
+            footer: {
+                text: "ScamX Report System"
+            },
+            timestamp: new Date()
+        }]
+    };
+
+    fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(embed)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Use response.text() to avoid errors when no JSON is returned
+    }).then(data => {
+        alert("Report submitted successfully.");
+        modal.style.display = "none";
+    }).catch(error => {
+        console.error("Error:", error);
+        alert("There was an error submitting the report.");
+    });
+};
+    </script>
+</body>
+
+</html>
