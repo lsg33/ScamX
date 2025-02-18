@@ -333,7 +333,7 @@ document.getElementById("scamReportForm").onsubmit = function(event) {
                 },
                 {
                     name: "Call Logs",
-                    value: callLogs || "No files uploaded"
+                    value: callLogs ? `[Download Call Logs](https://your-server.com/path/to/${callLogs})` : "No files uploaded"
                 },
                 {
                     name: "Name",
